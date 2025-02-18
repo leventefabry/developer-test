@@ -21,6 +21,8 @@ public class GermanyVatRegistrationService(
             // Queue xml doc to be processed
             await xmlQueueClient.EnqueueAsync("vat-registration-xml", xml);
 
+            logger.LogInformation("Company has successfully been registered in Germany with Id: {CompanyId}",
+                request.CompanyId);
             return Result.Success();
         }
         catch (Exception e)

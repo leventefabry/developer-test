@@ -18,6 +18,8 @@ public class UkVatRegistrationService(
             // ideally the API client would be a separate HTTP client service and the URL would be set there
             await httpClient.PostAsync("https://api.uktax.gov.uk", request);
 
+            logger.LogInformation("Company has successfully been registered in the UK with Id: {CompanyId}",
+                request.CompanyId);
             return Result.Success();
         }
         catch (Exception e)

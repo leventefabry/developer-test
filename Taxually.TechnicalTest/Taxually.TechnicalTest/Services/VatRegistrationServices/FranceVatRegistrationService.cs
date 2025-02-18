@@ -21,6 +21,8 @@ public class FranceVatRegistrationService(
             // Queue file to be processed
             await excelQueueClient.EnqueueAsync("vat-registration-csv", csv);
 
+            logger.LogInformation("Company has successfully been registered in France with Id: {CompanyId}",
+                request.CompanyId);
             return Result.Success();
         }
         catch (Exception e)
