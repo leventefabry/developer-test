@@ -9,7 +9,7 @@ public class ExcelBuilder : IExcelBuilder
     {
         var csvBuilder = new StringBuilder();
         csvBuilder.AppendLine("CompanyName,CompanyId");
-        csvBuilder.AppendLine($"{companyName}{companyId}");
+        csvBuilder.AppendLine($"{companyName},{companyId}");
         return Encoding.UTF8.GetBytes(csvBuilder.ToString());
     }
 }

@@ -3,13 +3,22 @@ using Taxually.TechnicalTest.Interfaces;
 
 namespace Taxually.TechnicalTest.Services;
 
-public class XmlBuilder : IXmlBuilder
+public class XmlBuilder(ILogger logger) : IXmlBuilder
 {
-    public string GetXmlString<T>(T data) where T : class
-    {
-        using var stringWriter = new StringWriter();
-        var serializer = new XmlSerializer(typeof(T));
-        serializer.Serialize(stringWriter, data);
-        return stringWriter.ToString();
-    }
+	public string GetXmlString<T>(T data) where T : class
+	{
+		try
+		{
+
+			using var stringWriter = new StringWriter();
+			var serializer = new XmlSerializer(typeof(T));
+			serializer.Serialize(stringWriter, data);
+			return stringWriter.ToString();
+		}
+		catch (Exception ex)
+		{
+			logger.LogError(ex, "Failed to serialize object to XML");
+			throw new InvalidOperationException("Failed to serialize object to XML", ex);
+		}
+	}
 }

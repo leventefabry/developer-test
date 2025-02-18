@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Taxually.TechnicalTest.Common;
+﻿using Taxually.TechnicalTest.Common;
 using Taxually.TechnicalTest.Contracts.Requests;
 using Taxually.TechnicalTest.Interfaces;
 
