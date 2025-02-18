@@ -7,6 +7,7 @@ namespace Taxually.TechnicalTest.Services.VatRegistrationServices;
 
 public class FranceVatRegistrationService(
     ITaxuallyQueueClient excelQueueClient,
+    IExcelBuilder excelBuilder,
     ILogger<FranceVatRegistrationService> logger) : IVatRegistrationService
 {
     public string CountryCode => "fr";
@@ -16,10 +17,7 @@ public class FranceVatRegistrationService(
         try
         {
             // France requires an excel spreadsheet to be uploaded to register for a VAT number
-            var csvBuilder = new StringBuilder();
-            csvBuilder.AppendLine("CompanyName,CompanyId");
-            csvBuilder.AppendLine($"{request.CompanyName}{request.CompanyId}");
-            var csv = Encoding.UTF8.GetBytes(csvBuilder.ToString());
+            var csv = excelBuilder.CreateCsv(request.CompanyName, request.CompanyId);
 
             // Queue file to be processed
             await excelQueueClient.EnqueueAsync("vat-registration-csv", csv);
@@ -29,9 +27,9 @@ public class FranceVatRegistrationService(
         catch (Exception e)
         {
             logger.LogError(e,
-                "Failed to register company for VAT in France with Company Id: {CompanyId}, Company Name: {CompanyName}",
+                "Failed to register a company for VAT in France with Company Id: {CompanyId}, Company Name: {CompanyName}",
                 request.CompanyId, request.CompanyName);
-            return Result.Failure("Failed to register company for VAT in France");
+            return Result.Failure("Failed to register a company for VAT in France");
         }
     }
 }

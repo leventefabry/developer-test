@@ -7,6 +7,7 @@ namespace Taxually.TechnicalTest.Services.VatRegistrationServices;
 
 public class GermanyVatRegistrationService(
     ITaxuallyQueueClient xmlQueueClient,
+    IXmlBuilder xmlBuilder,
     ILogger<GermanyVatRegistrationService> logger) : IVatRegistrationService
 {
     public string CountryCode => "de";
@@ -16,10 +17,7 @@ public class GermanyVatRegistrationService(
         try
         {
             // Germany requires an XML document to be uploaded to register for a VAT number
-            await using var stringWriter = new StringWriter();
-            var serializer = new XmlSerializer(typeof(VatRegistrationRequest));
-            serializer.Serialize(stringWriter, this);
-            var xml = stringWriter.ToString();
+            var xml = xmlBuilder.GetXmlString(request);
 
             // Queue xml doc to be processed
             await xmlQueueClient.EnqueueAsync("vat-registration-xml", xml);
@@ -29,9 +27,9 @@ public class GermanyVatRegistrationService(
         catch (Exception e)
         {
             logger.LogError(e,
-                "Failed to register company for VAT in Germany with Company Id: {CompanyId}, Company Name: {CompanyName}",
+                "Failed to register a company for VAT in Germany with Company Id: {CompanyId}, Company Name: {CompanyName}",
                 request.CompanyId, request.CompanyName);
-            return Result.Failure("Failed to register company for VAT in Germany");
+            return Result.Failure("Failed to register a company for VAT in Germany");
         }
     }
 }

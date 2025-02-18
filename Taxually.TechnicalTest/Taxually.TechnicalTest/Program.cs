@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.RegisterClients();
 builder.Services.RegisterVatServices();
+builder.Services.RegisterCommonServices();
 
 var app = builder.Build();
 

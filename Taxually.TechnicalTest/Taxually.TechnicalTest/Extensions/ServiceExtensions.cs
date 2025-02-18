@@ -1,6 +1,6 @@
-﻿using Taxually.TechnicalTest.Clients;
-using Taxually.TechnicalTest.Interfaces;
+﻿using Taxually.TechnicalTest.Interfaces;
 using Taxually.TechnicalTest.Services;
+using Taxually.TechnicalTest.Services.Clients;
 using Taxually.TechnicalTest.Services.VatRegistrationServices;
 
 namespace Taxually.TechnicalTest.Extensions;
@@ -13,6 +13,12 @@ public static class ServiceExtensions
         services.AddScoped<ITaxuallyHttpClient, TaxuallyHttpClient>();
     }
 
+    public static void RegisterCommonServices(this IServiceCollection services)
+    {
+        services.AddScoped<IExcelBuilder, ExcelBuilder>();
+        services.AddScoped<IXmlBuilder, XmlBuilder>();
+    }
+    
     public static void RegisterVatServices(this IServiceCollection services)
     {
         services.AddScoped<IVatRegistrationService, UkVatRegistrationService>();

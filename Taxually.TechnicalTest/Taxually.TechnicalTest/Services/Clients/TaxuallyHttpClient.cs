@@ -1,6 +1,6 @@
 ﻿using Taxually.TechnicalTest.Interfaces;
 
-namespace Taxually.TechnicalTest.Clients
+namespace Taxually.TechnicalTest.Services.Clients
 {
     public class TaxuallyHttpClient : ITaxuallyHttpClient
     {
