@@ -9,6 +9,7 @@ public class VatRegistrationServiceHandler(
     ILogger<VatRegistrationServiceHandler> logger)
     : IVatRegistrationServiceHandler
 {
+    // it's not the simplest solution but this is the closest to SOLID principles
     public async Task<Result> RegisterVatAsync(VatRegistrationRequest request)
     {
         var factory = vatServiceFactory();
@@ -25,11 +26,11 @@ public class VatRegistrationServiceHandler(
             return Result.Failure($"Country {request.Country} does not exist");
         }
         
-        // add generic pre processors, db read/write etc...
+        // add generic pre-processors, db read/write etc...
 
         await requiredService.RegisterAsync(request);
         
-        // add generic post processors, audit, db read/write etc...
+        // add generic post-processors, audit, db read/write etc...
         
         return Result.Success();
     }

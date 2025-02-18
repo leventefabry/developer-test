@@ -1,10 +1,10 @@
 ﻿namespace Taxually.TechnicalTest.Common;
 
-public class Result
+public record Result
 {
-    public bool IsSuccess { get; private set; }
+    public bool IsSuccess { get; private init; }
     
-    public string Error { get; private set; }
+    public string Error { get; private init; }
 
     public static Result Success() => new() { IsSuccess = true };
 
