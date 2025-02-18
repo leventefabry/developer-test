@@ -5,11 +5,15 @@ namespace Taxually.TechnicalTest.Services;
 
 public class XmlBuilder(ILogger<XmlBuilder> logger) : IXmlBuilder
 {
-	public string GetXmlString<T>(T data) where T : class
+	public string GetXmlString<T>(T? data) where T : class
 	{
 		try
 		{
-
+			if (data is null)
+			{
+				throw new InvalidOperationException("Data is null");
+			}
+			
 			using var stringWriter = new StringWriter();
 			var serializer = new XmlSerializer(typeof(T));
 			serializer.Serialize(stringWriter, data);
