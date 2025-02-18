@@ -3,7 +3,7 @@ using Taxually.TechnicalTest.Interfaces;
 
 namespace Taxually.TechnicalTest.Services;
 
-public class XmlBuilder(ILogger logger) : IXmlBuilder
+public class XmlBuilder(ILogger<XmlBuilder> logger) : IXmlBuilder
 {
 	public string GetXmlString<T>(T data) where T : class
 	{
